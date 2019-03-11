@@ -1,140 +1,122 @@
 # # -*- coding: utf-8 -*-
-#
-# # Form implementation generated from reading ui file 'F:\User Files\Downloads\AegisGUI.ui'
-# #
-# # Created by: PyQt5 UI code generator 5.11.3
-# #
-# # WARNING! All changes made in this file will be lost!
-#
-# import kivy
-# kivy.require('1.0.6')
+
+import subprocess
+from subprocess import Popen, PIPE
 import tkinter as tk
 from tkinter import ttk, scrolledtext, Radiobutton
 from tkinter.ttk import Combobox
-# from kivy.app import App
-# from kivy.uix.label import Label
-# from kivy.base import runTouchApp
-# from kivy.lang import Builder
-# # import aegis
-import os
-# import subprocess
-cmd = 'python aegis.py --pot aegisec.pot --domain aegisec.me'
-meme = os.system(cmd)
-#
-# root = Builder.load_string(r'''
-#
-# ScrollView:
-#
-#     Label:
-#
-#         text: 'meme'
-#
-#         font_size: 30
-#
-#         size_hint_x: 1.0
-#
-#         size_hint_y: None
-#
-#         text_size: self.width, None
-#
-#         height: self.texture_size[1]
-#
-# ''')
-# class MyApp(App):
-#     def build(self):
-#         return Label(text='Hello world')
-#
-# if __name__ == '__main__':
-#     import sys
-#     runTouchApp(root)
-#     #MyApp().run()
-#     currentDir = os.getcwd()
 
 win = tk.Tk()
-win.title("Forensic Tweet Analyser")
-win.minsize(width=1900, height=1500)
-win.maxsize(width=1900, height=1500)
-win.configure(background="#eaeaea")
+win.title("Aegis")
+win.minsize(width=1800, height=900)
+win.maxsize(width=1800, height=900)
+#win.configure(background="#eaeaea")
+
+stdout = Popen('python aegis.py --pot aegisec.pot --domain aegisec.me', shell=True, stdout=PIPE).stdout
+
+meme = stdout.read()
 
 # Select File Label
-ttk.Label(win, text="File Name:").place(x=5, y=1)
+ttk.Label(win, text="Remote Extraction").place(x=80, y=1)
+ttk.Label(win, text="Username:").place(x=5, y=30)
+
 
 # User selected file
-jsonFile = tk.StringVar()
-jsonFileNameEntered = ttk.Entry(win, width=30, textvariable=jsonFile, )
-jsonFileNameEntered.place(x=5, y=20)
+rUser = tk.StringVar()
+remoteUser = ttk.Entry(win, width=30, textvariable=rUser, )
+remoteUser.place(x=5, y=50)
 
 # Search Label
-ttk.Label(win, text="Search String:").place(x=5, y=45)
+ttk.Label(win, text="Password:").place(x=5, y=75)
 
 # Textbox Entry
-name = tk.StringVar()
-nameEntered = ttk.Entry(win, width=30, textvariable=name, )
-nameEntered.place(x=5, y=65)
+rPass = tk.StringVar()
+remotePass = ttk.Entry(win, width=30, textvariable=rPass, )
+remotePass.place(x=5, y=95)
 
-# This button calls the SearchJSON function, passing in the value of the radioboxes for whether the results should be clustered or not
-action = ttk.Button(win, width=30, text="Search String")
-action.place(x=5, y=90)
+# Search Label
+ttk.Label(win, text="Target IP:").place(x=5, y=120)
 
-actionRegex = ttk.Button(win, width=30, text="Regex Search",
-                         )
-actionRegex.place(x=5, y=115)
+# Textbox Entry
+rIP = tk.StringVar()
+remoteIP = ttk.Entry(win, width=30, textvariable=rIP, )
+remoteIP.place(x=5, y=140)
 
-actionDate = ttk.Button(win, width=30, text="Search Date [YYYY-MM-DD]",
-                        )
-actionDate.place(x=5, y=140)
+remoteExtract = ttk.Button(win, width=29, text="Extract")
+remoteExtract.place(x=5, y=170)
 
-# Using a scrolled Text control
-scrolW = 84
-scrolH = 30
-scr = scrolledtext.ScrolledText(win, width=scrolW, height=scrolH, wrap=tk.WORD, background="#f0f0f0")
-scr.place(x=200, y=1)
 
 # Search Limit Label
-ttk.Label(win, text="Search Limit:").place(x=10, y=175)
+ttk.Label(win, text="Local Extraction:").place(x=10, y=310)
 
-# Textbox Entry Search Limit
-searchLimit = tk.StringVar()
-searchLimitEntry = ttk.Entry(win, width=15, textvariable=searchLimit, )
-searchLimitEntry.place(x=95, y=173)
+localExplanation = "1. Open a command prompt as admin on the DC\n" \
+                   "2. Run ntdsutil'ac i ntds''ifm''create full c:/temp' q q\n" \
+                   "3. Extract c:/temp/Active Directory/ntds.dit and c:/temp/registry/SYSTEM to your computer running Aegis"
+localMessage = tk.Message(win, width=220, text=localExplanation).place(x=5, y=285)
 
-# Search Label Beer
-ttk.Label(win, text="Search Template:").place(x=40, y=200)
+# Search Label
+ttk.Label(win, text="SYSTEM file path:").place(x=5, y=432)
 
-# Note: Using a Lambda function to avoid triggering the command when creating the button and calling the SearchTemplate argument with an array of words to search for as well as the radiobox value
-# Beers Template
-action = ttk.Button(win, width=30, text="Beers",
-                    )
-action.place(x=5, y=220)
+# Textbox Entry
+sysInput = tk.StringVar()
+systemInput = ttk.Entry(win, width=30, textvariable=sysInput, )
+systemInput.place(x=5, y=452)
 
-action = ttk.Button(win, width=30, text="University",
-                    )
-action.place(x=5, y=245)
+# Search Label
+ttk.Label(win, text="ntds.dit file path:").place(x=5, y=477)
 
-action = ttk.Button(win, width=30, text="Gym",
-                    )
-action.place(x=5, y=270)
+# Textbox Entry
+ntdsInput = tk.StringVar()
+ntdsutilInput = ttk.Entry(win, width=30, textvariable=ntdsInput, )
+ntdsutilInput.place(x=5, y=497)
 
-# Adding radio boxes for toggling clustered markers
-clusterOnButton = Radiobutton(win, text="Clustered Markers", value=1)
-clusterOnButton.place(x=5, y=300)
-clusterOffButton = Radiobutton(win, text="Individual Markers", value=0)
-clusterOffButton.place(x=5, y=325)
+localExtract = ttk.Button(win, width=29, text="Extract")
+localExtract.place(x=5, y=527)
 
-# Show Heatmap Button
-loadingJsonButton = ttk.Button(win, width=30, text=" Show Plotted Search Heatmap ")
-loadingJsonButton.place(x=5, y=350)
+ttk.Label(win, text="Active Directory Evaluation").place(x=40, y=622)
+
+# Search Label
+ttk.Label(win, text="Pot filename:").place(x=5, y=647)
+
+# Textbox Entry
+potInput = tk.StringVar()
+potFileInput = ttk.Entry(win, width=30, textvariable=potInput, )
+potFileInput.place(x=5, y=667)
+
+# Search Label
+ttk.Label(win, text="Domain name:").place(x=5, y=692)
+
+# Textbox Entry
+domInput = tk.StringVar()
+domainInput = ttk.Entry(win, width=30, textvariable=domInput, )
+domainInput.place(x=5, y=712)
+
+# Using a scrolled Text control
+scrolW = 168
+scrolH = 52
+scr = scrolledtext.ScrolledText(win, width=(scrolW), height=(scrolH), font=('Calibri', 10, 'bold'), wrap=tk.WORD,  background="#f0f0f0")
+scr.place(x=260, y=1)
+
+
+
+
+def toScroll():
+    scr.insert(tk.INSERT, meme)
+def ClearText():
+    scr.delete(1.0, tk.END)
+
+
 
 # Show Normal Map Button
-loadingJsonButton = ttk.Button(win, width=30, text=" Show Plotted Search Results ")
-loadingJsonButton.place(x=5, y=375)
+outputExtract = ttk.Button(win, width=29, text="Yes", command=lambda : toScroll())
+outputExtract.place(x=5, y=747)
 
 # Clear Console Button
-clearButton = ttk.Button(win, width=30, text=" Clear Console ")
-clearButton.place(x=5, y=400)
+clearButton = ttk.Button(win, width=30, text="Clear Console ", command=lambda : ClearText())
+clearButton.place(x=5, y=862)
 
 # Place cursor into name Entry
-nameEntered.focus()
+remotePass.focus()
 
 # Start GUI
 win.mainloop()
