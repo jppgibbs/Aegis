@@ -47,7 +47,7 @@ remoteExtract.place(x=5, y=170)
 
 
 # Search Limit Label
-ttk.Label(win, text="Local Extraction:").place(x=10, y=310)
+ttk.Label(win, text="Local Extraction:").place(x=70, y=260)
 
 localExplanation = "1. Open a command prompt as admin on the DC\n" \
                    "2. Run ntdsutil'ac i ntds''ifm''create full c:/temp' q q\n" \
@@ -108,7 +108,7 @@ def ClearText():
 
 
 # Show Normal Map Button
-outputExtract = ttk.Button(win, width=29, text="Yes", command=lambda : toScroll())
+outputExtract = ttk.Button(win, width=29, text="Generate Report", command=lambda : toScroll())
 outputExtract.place(x=5, y=747)
 
 # Clear Console Button
