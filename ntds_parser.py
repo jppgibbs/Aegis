@@ -49,7 +49,7 @@ def process_local(system, ntds, historic):
     except:
         raise Exception("Failed to retrieve decryption key. Ensure your SYSTEM hive is correct.")
 
-    print("Found key: 0x{0}.".format(hexlify(bootKey)))
+    #print("Found key: 0x{0}.".format(hexlify(bootKey)))
     stopper = Event()
     spinner = Thread(target=__update, args=(stopper, hashes))
     spinner.start()
@@ -84,4 +84,4 @@ def __update(stopper, hashes):
     while not stopper.is_set():
         sys.stdout.write("[" + spinner.next() + "] (" + str(len(hashes)) + ") Finding and extracting hashes - this might take a few minutes...   \r")
         sys.stdout.flush()
-        time.sleep(0.2)
+        #time.sleep(0.2)
