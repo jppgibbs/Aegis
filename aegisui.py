@@ -3,18 +3,23 @@
 import subprocess
 from subprocess import Popen, PIPE
 import tkinter as tk
-from tkinter import ttk, scrolledtext, Radiobutton
+from tkinter import ttk, scrolledtext, Entry
 from tkinter.ttk import Combobox
+
 
 win = tk.Tk()
 win.title("Aegis")
 win.minsize(width=1800, height=900)
 win.maxsize(width=1800, height=900)
 #win.configure(background="#eaeaea")
+#reportcmd = 'python aegis.py --pot aegisec.pot --domain aegisec.me'
+#rExtractcmd =
+#lExratractcmd =
+# domainEntered = tkinter.domInput
+#potEntered = potInput
 
-stdout = Popen('python aegis.py --pot aegisec.pot --domain aegisec.me', shell=True, stdout=PIPE).stdout
 
-meme = stdout.read()
+
 
 # Select File Label
 ttk.Label(win, text="Remote Extraction").place(x=80, y=1)
@@ -46,6 +51,16 @@ remoteExtract = ttk.Button(win, width=29, text="Extract")
 remoteExtract.place(x=5, y=170)
 
 
+def lExtractToScroll():
+    userEntered = remoteUser.get()
+    passEntered = remotePass.get()
+    ipEntered = remoteIP.get()
+    rExtractcmd = 'python aegis.py --username '+userEntered+' --password '+passEntered+' --target '+ipEntered
+    stdout = Popen(rExtractcmd, shell=True, stdout=PIPE).stdout
+    rExtractOut = stdout.read()
+    scr.insert(tk.INSERT, rExtractOut)
+
+
 # Search Limit Label
 ttk.Label(win, text="Local Extraction:").place(x=70, y=260)
 
@@ -70,8 +85,16 @@ ntdsInput = tk.StringVar()
 ntdsutilInput = ttk.Entry(win, width=30, textvariable=ntdsInput, )
 ntdsutilInput.place(x=5, y=497)
 
-localExtract = ttk.Button(win, width=29, text="Extract")
+localExtract = ttk.Button(win, width=29, text="Extract", command=lambda : lExtractToScroll())
 localExtract.place(x=5, y=527)
+
+def lExtractToScroll():
+    sysEntered = systemInputInputInput.get()
+    ntdsEntered = ntdsutilInputInput.get()
+    lExtractcmd = 'python aegis.py --system '+sysEntered+' --ntds '+ntdsEntered+'.dit'
+    stdout = Popen(lExtractcmd, shell=True, stdout=PIPE).stdout
+    lExtractOut = stdout.read()
+    scr.insert(tk.INSERT, lExtractOut)
 
 ttk.Label(win, text="Active Directory Evaluation").place(x=40, y=622)
 
@@ -80,7 +103,7 @@ ttk.Label(win, text="Pot filename:").place(x=5, y=647)
 
 # Textbox Entry
 potInput = tk.StringVar()
-potFileInput = ttk.Entry(win, width=30, textvariable=potInput, )
+potFileInput = ttk.Entry(win, width=30, textvariable=potInput )
 potFileInput.place(x=5, y=667)
 
 # Search Label
@@ -88,8 +111,11 @@ ttk.Label(win, text="Domain name:").place(x=5, y=692)
 
 # Textbox Entry
 domInput = tk.StringVar()
-domainInput = ttk.Entry(win, width=30, textvariable=domInput, )
+domainInput = ttk.Entry(win, width=30, textvariable=domInput )
 domainInput.place(x=5, y=712)
+domainInput.focus()
+
+
 
 # Using a scrolled Text control
 scrolW = 168
@@ -100,16 +126,32 @@ scr.place(x=260, y=1)
 
 
 
-def toScroll():
-    scr.insert(tk.INSERT, meme)
+def reportToScroll():
+    potEntered = potFileInput.get()
+    domainEntered = domainInput.get()
+    reportcmd = 'python aegis.py --pot ' + potEntered + '.pot --domain ' + domainEntered
+    stdout = Popen(reportcmd, shell=True, stdout=PIPE).stdout
+    reportOut = stdout.read()
+    scr.insert(tk.INSERT, reportOut)
+
+def toPassCloud():
+    potEntered = potFileInput.get()
+    domainEntered = domainInput.get()
+    reportcmd = 'python aegis.py --pot ' + potEntered + '.pot --domain ' + domainEntered +' --output password_cloud'
+    stdout = Popen(reportcmd, shell=True, stdout=PIPE).stdout
+    reportOut = stdout.read()
+    scr.insert(tk.INSERT, reportOut)
+
 def ClearText():
     scr.delete(1.0, tk.END)
 
 
-
 # Show Normal Map Button
-outputExtract = ttk.Button(win, width=29, text="Generate Report", command=lambda : toScroll())
+outputExtract = ttk.Button(win, width=29, text="Generate Report", command=lambda: reportToScroll())
 outputExtract.place(x=5, y=747)
+
+outputExtract = ttk.Button(win, width=29, text="Generate Password Cloud", command=lambda: toPassCloud())
+outputExtract.place(x=5, y=782)
 
 # Clear Console Button
 clearButton = ttk.Button(win, width=30, text="Clear Console ", command=lambda : ClearText())
