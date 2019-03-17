@@ -62,31 +62,31 @@ def lExtractToScroll():
 
 
 # Search Limit Label
-ttk.Label(win, text="Local Extraction:").place(x=70, y=260)
+ttk.Label(win, text="Local Extraction:").place(x=70, y=210)
 
 localExplanation = "1. Open a command prompt as admin on the DC\n" \
                    "2. Run ntdsutil'ac i ntds''ifm''create full c:/temp' q q\n" \
                    "3. Extract c:/temp/Active Directory/ntds.dit and c:/temp/registry/SYSTEM to your computer running Aegis"
-localMessage = tk.Message(win, width=220, text=localExplanation).place(x=5, y=285)
+localMessage = tk.Message(win, width=220, text=localExplanation).place(x=5, y=235)
 
 # Search Label
-ttk.Label(win, text="SYSTEM file path:").place(x=5, y=432)
+ttk.Label(win, text="SYSTEM file path:").place(x=5, y=382)
 
 # Textbox Entry
 sysInput = tk.StringVar()
 systemInput = ttk.Entry(win, width=30, textvariable=sysInput, )
-systemInput.place(x=5, y=452)
+systemInput.place(x=5, y=402)
 
 # Search Label
-ttk.Label(win, text="ntds.dit file path:").place(x=5, y=477)
+ttk.Label(win, text="ntds.dit file path:").place(x=5, y=427)
 
 # Textbox Entry
 ntdsInput = tk.StringVar()
 ntdsutilInput = ttk.Entry(win, width=30, textvariable=ntdsInput, )
-ntdsutilInput.place(x=5, y=497)
+ntdsutilInput.place(x=5, y=447)
 
 localExtract = ttk.Button(win, width=29, text="Extract", command=lambda : lExtractToScroll())
-localExtract.place(x=5, y=527)
+localExtract.place(x=5, y=477)
 
 def lExtractToScroll():
     sysEntered = systemInputInputInput.get()
@@ -96,23 +96,23 @@ def lExtractToScroll():
     lExtractOut = stdout.read()
     scr.insert(tk.INSERT, lExtractOut)
 
-ttk.Label(win, text="Active Directory Evaluation").place(x=40, y=622)
+ttk.Label(win, text="Active Directory Evaluation").place(x=40, y=522)
 
 # Search Label
-ttk.Label(win, text="Pot filename:").place(x=5, y=647)
+ttk.Label(win, text="Pot filename:").place(x=5, y=547)
 
 # Textbox Entry
 potInput = tk.StringVar()
 potFileInput = ttk.Entry(win, width=30, textvariable=potInput )
-potFileInput.place(x=5, y=667)
+potFileInput.place(x=5, y=567)
 
 # Search Label
-ttk.Label(win, text="Domain name:").place(x=5, y=692)
+ttk.Label(win, text="Domain name:").place(x=5, y=592)
 
 # Textbox Entry
 domInput = tk.StringVar()
 domainInput = ttk.Entry(win, width=30, textvariable=domInput )
-domainInput.place(x=5, y=712)
+domainInput.place(x=5, y=612)
 domainInput.focus()
 
 
@@ -148,10 +148,24 @@ def ClearText():
 
 # Show Normal Map Button
 outputExtract = ttk.Button(win, width=29, text="Generate Report", command=lambda: reportToScroll())
-outputExtract.place(x=5, y=747)
+outputExtract.place(x=5, y=647)
 
 outputExtract = ttk.Button(win, width=29, text="Generate Password Cloud", command=lambda: toPassCloud())
-outputExtract.place(x=5, y=782)
+outputExtract.place(x=5, y=682)
+
+ttk.Label(win, text="Email Compromise Check").place(x=40, y=722)
+
+# Search Label
+ttk.Label(win, text="Email:").place(x=5, y=757)
+
+# Textbox Entry
+domInput = tk.StringVar()
+domainInput = ttk.Entry(win, width=30, textvariable=domInput )
+domainInput.place(x=5, y=777)
+domainInput.focus()
+
+outputExtract = ttk.Button(win, width=29, text="Check Email", command=lambda: reportToScroll())
+outputExtract.place(x=5, y=812)
 
 # Clear Console Button
 clearButton = ttk.Button(win, width=30, text="Clear Console ", command=lambda : ClearText())
