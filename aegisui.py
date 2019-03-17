@@ -113,7 +113,7 @@ ttk.Label(win, text="Domain name:").place(x=5, y=592)
 domInput = tk.StringVar()
 domainInput = ttk.Entry(win, width=30, textvariable=domInput )
 domainInput.place(x=5, y=612)
-domainInput.focus()
+# domainInput.focus()
 
 
 
@@ -159,13 +159,13 @@ ttk.Label(win, text="Email Compromise Check").place(x=40, y=722)
 ttk.Label(win, text="Email:").place(x=5, y=757)
 
 # Textbox Entry
-domInput = tk.StringVar()
-domainInput = ttk.Entry(win, width=30, textvariable=domInput )
-domainInput.place(x=5, y=777)
-domainInput.focus()
+emInput = tk.StringVar()
+emailInput = ttk.Entry(win, width=30, textvariable=emInput)
+emailInput.place(x=5, y=777)
+# emailInput.focus()
 
-outputExtract = ttk.Button(win, width=29, text="Check Email", command=lambda: reportToScroll())
-outputExtract.place(x=5, y=812)
+outputEmail = ttk.Button(win, width=29, text="Check Email")
+outputEmail.place(x=5, y=812)
 
 # Clear Console Button
 clearButton = ttk.Button(win, width=30, text="Clear Console ", command=lambda : ClearText())
