@@ -94,7 +94,7 @@ def __coloured_score(score, text=None):
 def __get_usage(password):
     try:
         sha1_password = hashlib.sha1(password).hexdigest().upper()
-        request = urllib2.Request(HIBP_CHECK_API.format(sha1_password[:5]), headers={"User-Agent": "cracke-dit"})
+        request = urllib2.Request(HIBP_CHECK_API.format(sha1_password[:5]), headers={"User-Agent": "Aegis-dit"})
         response = urllib2.urlopen(request).read()
         lines = dict(map(lambda line: line.split(":"), response.split("\r\n")))
         passwords = {password: int(count) for password, count in lines.iteritems()}

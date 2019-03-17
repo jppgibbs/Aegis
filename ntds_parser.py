@@ -81,7 +81,9 @@ def __get_domain(hashes):
 def __update(stopper, hashes):
     spinner = itertools.cycle(['-', '/', '|', '\\'])
 
-    while not stopper.is_set():
-        sys.stdout.write("[" + spinner.next() + "] (" + str(len(hashes)) + ") Finding and extracting hashes - this might take a few minutes...   \r")
-        sys.stdout.flush()
-        #time.sleep(0.2)
+    #if not stopper.is_set():
+    sys.stdout.write("[" + spinner.next() + "] (" + str(len(hashes)) + ") Finding and extracting hashes - this might take a few minutes...   \r")
+
+
+    sys.stdout.flush()
+    #time.sleep(0.2)

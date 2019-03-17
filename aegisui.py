@@ -89,8 +89,8 @@ localExtract = ttk.Button(win, width=29, text="Extract", command=lambda : lExtra
 localExtract.place(x=5, y=477)
 
 def lExtractToScroll():
-    sysEntered = systemInputInputInput.get()
-    ntdsEntered = ntdsutilInputInput.get()
+    sysEntered = systemInput.get()
+    ntdsEntered = ntdsutilInput.get()
     lExtractcmd = 'python aegis.py --system '+sysEntered+' --ntds '+ntdsEntered+'.dit'
     stdout = Popen(lExtractcmd, shell=True, stdout=PIPE).stdout
     lExtractOut = stdout.read()
