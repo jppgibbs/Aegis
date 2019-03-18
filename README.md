@@ -1,5 +1,4 @@
-# Technical Report
-## Aegis
+# Aegis - Technical Report
 
 ## Abstract
 
