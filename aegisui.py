@@ -5,20 +5,15 @@ from subprocess import Popen, PIPE
 import tkinter as tk
 from tkinter import ttk, scrolledtext, Entry
 from tkinter.ttk import Combobox
+import requests
+import logging
+from time import sleep
 
 
 win = tk.Tk()
 win.title("Aegis")
 win.minsize(width=1800, height=900)
 win.maxsize(width=1800, height=900)
-#win.configure(background="#eaeaea")
-#reportcmd = 'python aegis.py --pot aegisec.pot --domain aegisec.me'
-#rExtractcmd =
-#lExratractcmd =
-# domainEntered = tkinter.domInput
-#potEntered = potInput
-
-
 
 
 # Select File Label
@@ -96,6 +91,7 @@ def lExtractToScroll():
     lExtractOut = stdout.read()
     scr.insert(tk.INSERT, lExtractOut)
 
+
 ttk.Label(win, text="Active Directory Evaluation").place(x=40, y=522)
 
 # Search Label
@@ -120,7 +116,7 @@ domainInput.place(x=5, y=612)
 # Using a scrolled Text control
 scrolW = 168
 scrolH = 52
-scr = scrolledtext.ScrolledText(win, width=(scrolW), height=(scrolH), font=('Calibri', 10, 'bold'), wrap=tk.WORD,  background="#f0f0f0")
+scr = scrolledtext.ScrolledText(win, width=(scrolW), height=(scrolH), font=('Calibri', 10, 'bold'), wrap=tk.WORD, background="#f0f0f0")
 scr.place(x=260, y=1)
 
 
@@ -137,7 +133,7 @@ def reportToScroll():
 def toPassCloud():
     potEntered = potFileInput.get()
     domainEntered = domainInput.get()
-    reportcmd = 'python aegis.py --pot ' + potEntered + '.pot --domain ' + domainEntered +' --output password_cloud'
+    reportcmd = 'python aegis.py --pot ' + potEntered + '.pot --domain ' + domainEntered + ' --output password_cloud'
     stdout = Popen(reportcmd, shell=True, stdout=PIPE).stdout
     reportOut = stdout.read()
     scr.insert(tk.INSERT, reportOut)
@@ -153,6 +149,32 @@ outputExtract.place(x=5, y=647)
 outputExtract = ttk.Button(win, width=29, text="Generate Password Cloud", command=lambda: toPassCloud())
 outputExtract.place(x=5, y=682)
 
+
+def checkEmail():
+    sleep(3)
+    userEmail= emailInput.get()
+    check = requests.get('https://haveibeenpwned.com/api/v2/breachedaccount/'+userEmail)
+    if check.status_code == 200:
+        # Account was breached
+        breachOut = (userEmail + ' has been involved in a breached\n')
+        scr.insert(tk.INSERT, breachOut)
+    elif check.status_code == 404:
+        # Not breached account
+        noBreachOut = (userEmail+' has not been involved in a breach\n')
+        scr.insert(tk.INSERT, noBreachOut)
+    elif check.status_code == 429:
+        #Has been throttled
+        rateExceedOut = 'Rate limit has been exceeded please try again shortly\n'
+        scr.insert(tk.INSERT, rateExceedOut)
+        sleep(3)
+        checkEmail()
+    else:
+        # Now this is strange
+        breachIssueOut = ('An issue has occurred while checking '+userEmail+'\n')
+        scr.insert(tk.INSERT, breachIssueOut)
+        sleep(3)
+
+
 ttk.Label(win, text="Email Compromise Check").place(x=40, y=722)
 
 # Search Label
@@ -164,11 +186,11 @@ emailInput = ttk.Entry(win, width=30, textvariable=emInput)
 emailInput.place(x=5, y=777)
 # emailInput.focus()
 
-outputEmail = ttk.Button(win, width=29, text="Check Email")
+outputEmail = ttk.Button(win, width=29, text="Check Email", command=lambda: checkEmail())
 outputEmail.place(x=5, y=812)
 
 # Clear Console Button
-clearButton = ttk.Button(win, width=30, text="Clear Console ", command=lambda : ClearText())
+clearButton = ttk.Button(win, width=30, text="Clear Console ", command=lambda: ClearText())
 clearButton.place(x=5, y=862)
 
 # Place cursor into name Entry
