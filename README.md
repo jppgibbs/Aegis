@@ -1,35 +1,5 @@
-<!----- Conversion time: 3.363 seconds.
-
-
-Using this Markdown file:
-
-1. Cut and paste this output into your source file.
-2. See the notes and action items below regarding this conversion run.
-3. Check the rendered output (headings, lists, code blocks, tables) for proper
-   formatting and use a linkchecker before you publish this page.
-
-Conversion notes:
-
-* Docs to Markdown version 1.0β16
-* Mon Mar 18 2019 03:42:56 GMT-0700 (PDT)
-* Source doc: https://docs.google.com/open?id=1Yk3HZOCdPwgsHIQKT37RB9xSioJkrJLSozJiXd_XCgk
-* This document has images: check for >>>>>  gd2md-html alert:  inline image link in generated source and store images to your server.
------>
-
-
-<p style="color: red; font-weight: bold">>>>>>  gd2md-html alert:  ERRORs: 0; WARNINGs: 0; ALERTS: 3.</p>
-<ul style="color: red; font-weight: bold"><li>See top comment block for details on ERRORs and WARNINGs. <li>In the converted Markdown or HTML, search for inline alerts that start with >>>>>  gd2md-html alert:  for specific instances that need correction.</ul>
-
-<p style="color: red; font-weight: bold">Links to alert messages:</p><a href="#gdcalert1">alert1</a>
-<a href="#gdcalert2">alert2</a>
-<a href="#gdcalert3">alert3</a>
-
-<p style="color: red; font-weight: bold">>>>>> PLEASE check and correct alert issues and delete this message and the inline alerts.<hr></p>
-
-
-
 # Technical Report
-
+## Aegis
 
 ## Abstract
 
@@ -38,19 +8,7 @@ Aegis is an audit tool designed to be used by organizations to support the aware
 The software supports both automatic and manual extraction of account information from an active directory server. Once extracted, the account file can be opened within the application and generate a report highlighting weaknesses along with other statistical information. The report can then be used to make informed decisions on security policy in order to fortify weak accounts.
 
 
-## Contents
-
-
-[TOC]
-
-
-
-
-
 ## Introduction
-
-**WRITE ABOUT WHATS IN THIS REPORT**
-
 
 ### The Brief
 
