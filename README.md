@@ -7,15 +7,6 @@ Aegis is an account audit tool designed to be used by organizations to support t
 The software supports both automatic and manual extraction of account information from an active directory server. Once extracted, the account file can be opened within the application and generate a report highlighting weaknesses along with other statistical information. The report can then be used to make informed decisions on security policy in order to fortify weak accounts.
 
 
-## Contents
-
-
-[TOC]
-
-
-
-
-
 ## Introduction
 
 This report will cover the design and development of Aegis; the ideas behind each of the features and how they evolved throughout the requirements, design, and implementation stages. It will also detail the usage of the software, and what the user can do to adequately utilize it's capabilities.
