@@ -224,7 +224,7 @@ This is implemented in two forms:
 
 
 
-*   **Password checking **- When the report is generated it will show how many times a password has been caught in a data breach.
+*   **Password checking** - When the report is generated it will show how many times a password has been caught in a data breach.
 *   **Email checking** - The user can choose to check an individual email address. This is a separate function from the core report as active directory accounts often won't have an email associated with them.
 
 
