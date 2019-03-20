@@ -80,12 +80,6 @@ def run(db, args):
     vals_percents = [" ({:.2f}%)".format((v / total) * 100) for v in vals]
     __print_graph(keys, vals, vals_percents)
 
-    # if historic > 0:
-    #     __print_table(title="Users historic passwords (top {})".format((args.limit)),
-    #                   headers=["    User    ", "# Passwords", "Passwords"],
-    #                   align=[">", "<", ""], values=db.get_historic_passwords(args.limit),
-    #                   format=lambda user, passwords: [user, len(passwords), __process_passwords(passwords)])
-
 
 def __print_table(title, headers, align, values, format):
     fmt = "".join(["{:" + align[headers.index(x)] + str(int(len(x) * 1.75)) + "}\t".expandtabs() for x in headers])

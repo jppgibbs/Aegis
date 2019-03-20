@@ -4,24 +4,7 @@ from threading import Thread, Event
 import ntds_parser as ntds, outputs
 from database import HashDatabase, DomainDoesntExist
 
-# BANNER = """\033[91m
-#
-#  $$$$$$\                      $$\
-# $$  __$$\                     \__|
-# $$ /  $$ | $$$$$$\   $$$$$$\  $$\  $$$$$$$\
-# $$$$$$$$ |$$  __$$\ $$  __$$\ $$ |$$  _____|
-# $$  __$$ |$$$$$$$$ |$$ /  $$ |$$ |\$$$$$$\
-# $$ |  $$ |$$   ____|$$ |  $$ |$$ | \____$$\
-# $$ |  $$ |\$$$$$$$\ \$$$$$$$ |$$ |$$$$$$$  |
-# \__|  \__| \_______| \____$$ |\__|\_______/
-#                     $$\   $$ |
-#                     \$$$$$$  |
-#                      \______/
-# \033[0m\033[91m\n"""
-
-
 if __name__ == "__main__":
-   # print(BANNER)
     available_outputs = ", ".join(outputs.discover_outputs().keys())
 
     parser = argparse.ArgumentParser(add_help=False, description="Aegis makes it easier to perform password "
@@ -68,10 +51,8 @@ if __name__ == "__main__":
         print("Found {} hashes for '{}', available at {}. Run them through your favourite password cracker and re-run Aegis with --pot - see README for tips!".format(len(records), domain, ntlm_file))
     elif args.pot and args.domain:
         def __update(stopper):
-            spinner = itertools.cycle(['-', '/', '|', '\\'])
 
             while not stopper.is_set():
-                #sys.stdout.write("[" + spinner.next() + "] Processing...\r")
                 sys.stdout.flush()
                 time.sleep(0.2)
 

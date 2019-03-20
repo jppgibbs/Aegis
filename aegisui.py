@@ -42,11 +42,12 @@ rIP = tk.StringVar()
 remoteIP = ttk.Entry(win, width=30, textvariable=rIP, )
 remoteIP.place(x=5, y=140)
 
-remoteExtract = ttk.Button(win, width=29, text="Extract")
+remoteExtract = ttk.Button(win, width=29, text="Extract", command=lambda :rExtractToScroll())
 remoteExtract.place(x=5, y=170)
 
 
-def lExtractToScroll():
+def rExtractToScroll():
+    ClearText()
     userEntered = remoteUser.get()
     passEntered = remotePass.get()
     ipEntered = remoteIP.get()
@@ -84,6 +85,7 @@ localExtract = ttk.Button(win, width=29, text="Extract", command=lambda : lExtra
 localExtract.place(x=5, y=477)
 
 def lExtractToScroll():
+    ClearText()
     sysEntered = systemInput.get()
     ntdsEntered = ntdsutilInput.get()
     lExtractcmd = 'python aegis.py --system '+sysEntered+' --ntds '+ntdsEntered+'.dit'
@@ -123,6 +125,7 @@ scr.place(x=260, y=1)
 
 
 def reportToScroll():
+    ClearText()
     potEntered = potFileInput.get()
     domainEntered = domainInput.get()
     reportcmd = 'python aegis.py --pot ' + potEntered + '.pot --domain ' + domainEntered
@@ -151,12 +154,13 @@ outputExtract.place(x=5, y=682)
 
 
 def checkEmail():
+    ClearText()
     sleep(3)
     userEmail= emailInput.get()
     check = requests.get('https://haveibeenpwned.com/api/v2/breachedaccount/'+userEmail)
     if check.status_code == 200:
         # Account was breached
-        breachOut = (userEmail + ' has been involved in a breached\n')
+        breachOut = (userEmail + ' has been involved in a breach\n')
         scr.insert(tk.INSERT, breachOut)
     elif check.status_code == 404:
         # Not breached account

@@ -89,13 +89,6 @@ class HashDatabase:
 
         return only_alpha, with_special, only_digits
 
-    # def get_historic_passwords(self, limit=10):
-    #     results = sorted(self.table.search((Query().password.exists()) & (Query().password != "") & (Query().historic.exists()) & (Query().username.exists()) & self.only_enabled), key=lambda r: r["username"])
-    #     passwords = ((user, len(list(count))) for user, count in itertools.groupby(results, lambda r: r["username"]))
-    #
-    #     return sorted(list((user, self.__get_passwords_for_user(user))
-    #                        for user, count in passwords), key=lambda (user, passwords): len(passwords), reverse=True)[:limit]
-
     def get_passwords(self, sortby, reverse=True, limit=10):
         results = sorted(self.table.search((Query().password.exists()) & self.only_users & self.only_enabled), key=lambda r: r["password"])
         passwords = ((password, len(list(count))) for password, count in itertools.groupby(results, lambda r: r["password"]))
@@ -114,7 +107,6 @@ class HashDatabase:
         record["created"] = datetime.now()
 
         self.table.insert(record)
-
 
     def __get_users_with_password(self, password):
         users = self.table.search(
