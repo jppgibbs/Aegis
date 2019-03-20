@@ -1,17 +1,59 @@
-# Aegis - Technical Report
+<p style="color: red; font-weight: bold">>>>>>  gd2md-html alert:  ERRORs: 0; WARNINGs: 1; ALERTS: 3.</p>
+<ul style="color: red; font-weight: bold"><li>See top comment block for details on ERRORs and WARNINGs. <li>In the converted Markdown or HTML, search for inline alerts that start with >>>>>  gd2md-html alert:  for specific instances that need correction.</ul>
+
+<p style="color: red; font-weight: bold">Links to alert messages:</p><a href="#gdcalert1">alert1</a>
+<a href="#gdcalert2">alert2</a>
+<a href="#gdcalert3">alert3</a>
+
+<p style="color: red; font-weight: bold">>>>>> PLEASE check and correct alert issues and delete this message and the inline alerts.<hr></p>
+
+
+
+# Technical Report
+
+
+# 
+
+
+# Elevator Pitch 
+
+
+
+*   Enterprise Account Security Solution
+*   Performs internal audit of active directories 
+*   Rates password strength against a set of predetermined criteria using a low-budget password strength estimation algorithm 
+*   Checks if an email address has been subject to breaches using the            HaveIBeenPwned API 
+*   Supports manual and automatic extraction of account files
+*   Target audience is medium to large businesses 
+
+
+## 
+
 
 ## Abstract
 
-Aegis is an audit tool designed to be used by organizations to support the awareness layer of the defence in depth security model. It is a Python application that utilizes a low-budget password strength estimation algorithm on active directory account files to highlight weak passwords. Along with this, it utilizes the HaveIBeenPwned API to check each account's credentials to see if they have been caught in past breeches.
+Aegis is an account audit tool designed to be used by organizations to support the awareness layer of the defence in depth security model. It is a Python application that utilizes a low-budget password strength estimation algorithm against active directory account files to highlight weak passwords. It utilizes the HaveIBeenPwned API to check each account's credentials to see if they have been involved in prior data breaches.
 
 The software supports both automatic and manual extraction of account information from an active directory server. Once extracted, the account file can be opened within the application and generate a report highlighting weaknesses along with other statistical information. The report can then be used to make informed decisions on security policy in order to fortify weak accounts.
 
 
+## Contents
+
+
+[TOC]
+
+
+
+
+
 ## Introduction
+
+This report will cover the design and development of Aegis; the ideas behind each of the features and how they evolved throughout the requirements, design, and implementation stages. It will also detail the usage of the software, and what the user can do to adequately utilize it's capabilities.
+
 
 ### The Brief
 
-Our project brief was "Write a program someone could run to check an Active Directory (or similar) to assess if network users have any weak passwords (e.g. duplicates, weak, common, etc). The program should also run a check on the users to check if anyone has an account that has been compromised in a data breach using the haveibeenpwned service."
+The project brief was "Write a program someone could run to check an Active Directory (or similar) to assess if network users have any weak passwords (e.g. duplicates, weak, common, etc). The program should also run a check on the users to check if anyone has an account that has been compromised in a data breach using the haveibeenpwned service."
 
 
 ### What is Aegis?
@@ -21,10 +63,29 @@ Aegis is a Linux application developed in Python. The primary function is to per
 
 ## Requirements Analysis
 
-Our primary target audience is medium to large businesses that utilise computer systems which manage multiple accounts on an active directory server. Security is a key concern for any company that needs to store data on computer systems and weak passwords open up a large attack vector, so a tool like this can help efficiently highlight any weak accounts and passwords so they can be adequately secured. Due to the product being enterprise facing, the application prioritises functionality over form, and provides the end-user some more advanced settings that they can use to tailor the software to fit their needs.
+The primary target audience is medium to large businesses that utilise computer systems which manage multiple accounts on an active directory server. Security is a key concern for any company that needs to store data on computer systems and weak passwords open up a large attack vector. This means Aegis can efficiently highlight any weak accounts and passwords so they can be adequately secured. Due to the product being enterprise facing, the application prioritises functionality over form, and provides the end-user some more advanced settings that can be used to tailor the software to fit their needs.
+
+**Minimum viable product:**
+
+
+
+1. Must check passwords in an active directory against predetermined criteria for a strong password
+2. Must use the HaveIBeenPwned API to check accounts and show if it has been in a breach previously.
+3. Must support manual extraction of account data from an active directory
+
+**Additional Features:**
+
+
+
+4. Should have customizable reporting including text output, email output and a wordcloud of frequently used passwords
+5. Should support automatic remote extraction of password data from a Windows Server
+6. Passwords should not be visible to any external API
+7. Password statistic reporting, displaying worst passwords, password length distributions and how many meet strength requirements
 
 
 ### User Stories
+
+User stories were generated for various use cases of the program in order to develop a complete set of features.
 
 
 <table>
@@ -163,32 +224,15 @@ Our primary target audience is medium to large businesses that utilise computer 
 </table>
 
 
-**Minimum viable product:**
-
-
-
-1. Must check passwords in an active directory against predetermined criteria for a strong password
-2. Must use the HaveIBeenPwned API to check accounts and show if it has been in a breach previously.
-3. Must support manual extraction of account data from an active directory
-
-**Additional Features:**
-
-
-
-4. Should have customizable reporting including text output, email output and a wordcloud of frequently used passwords
-5. Should support automatic remote extraction of password data from a Windows Server
-6. Passwords should not be visible to any external API
-7. Password statistic reporting, displaying worst passwords, password length distributions and how many meet strength requirements
 
     
-
 
 
 ## User Interaction & Design
 
 **UI Considerations**
 
-Our target audience plays a large part in how our UI is designed. We wanted to aim primarily for functionality over form as it's targeted at more advanced users but we pivoted away from the idea of making it a command line interface to make it somewhat more accessible. 
+The target audience plays a large part in how our UI is designed. One of the primary objectives was to ensure functionality over form as it's targeted at more advanced users. Over time this was pivoted from the idea of making it purely command line interface to make it somewhat more accessible with a graphical user interface. 
 
 **Early UI Mockup**
 
@@ -200,7 +244,7 @@ Our target audience plays a large part in how our UI is designed. We wanted to a
 ![alt_text](images/Technical-Report0.png "image_tooltip")
 
 
-**Final UI Mockup design**
+**Final UI Design**
 
 
 
@@ -241,7 +285,7 @@ To manually extract the hashes the user must first follow the provided instructi
 This was implemented as a simpler method to the manual extraction, if the user is on the same network they can enter the account username and password along with the IP address of the domain controller to automatically extract the files in a hashed format, ready to crack.
 
 
-#### Reporting including text output and a wordcloud of frequently used passwords
+#### Reports including text output and a wordcloud of frequently used passwords
 
 This is implemented as two buttons:
 
@@ -258,7 +302,7 @@ When sending passwords to the HaveIBeenPwned API we utilize it's 'k-anonymity' m
 
 #### Password statistic reporting, displaying worst passwords, password length distributions and how many meet strength requirements
 
-This is implemented through the report where we display:
+This is implemented through the report which will display:
 
 
 
@@ -282,9 +326,8 @@ _(Tested on Kali Linux running Python 2.7.15)_
 1. pip install -r requirements.txt
 2. python aegisui.py
 
-### 
-Step 1. Database Extraction
 
+### Step 1. Database Extraction
 
 To start, you need to extract a copy of ntds.dit, the file that contains the password hashes for the active directory. You can do this either remotely (a) or manually (b):
 
@@ -311,39 +354,36 @@ b. Local database extraction
 
 
 
-### 
-Step 2. Extracting hashes
+### Step 2. Extracting hashes
 
 _(Skip this step if you used remote extraction)_
 
-If we extracted the hashes manually then we'll need to decrypt them using the SYSTEM hive:
+If you extracted the hashes manually then you will need to decrypt them using the SYSTEM hive:
 
 
 
 1. Enter the file path for the SYSTEM and ntds.dit files that you manually extracted in the appropriately labeled text boxes in the local extraction section.
 2. Once extracted your hash file can be found at yourdomain.hashes.ntlm
 
-### 
-Step 3. Cracking passwords
 
+### Step 3. Cracking passwords
 
 Now we need to crack the hashes in order to generate a .pot file with containing the raw passwords to be analysed by Aegis. For this you'll need to use a password cracking tool like John the Ripper or Hashcat. I would recommend a Hashcat dictionary attack with H0bRules for the most complete results.
 
 
 
 1. Install hashcat using 'apt-get install hashcat'
-2. Put your desired wordlist (e.g. rockyou.txt) and rule file (e.g. hob04.rule) in the directory
+2. Put your desired wordlist (e.g. rockyou.txt) and rule file (e.g. hob064.rule) in the directory
 3. Run 'hashcat -m 1000 --potfile-path yourdomain.pot --username yourdomain.hashes.ntlm rockyou.txt -r hob064.rule'
 
-### 
-Step 4. Generating the report
 
+### Step 4. Generating the report
 
 Now that the hashes have been cracked, you can load them with Aegis and generate your report:
 
 
 
-1. Now you have the .pot file with your cracked hashes, enter the name of the pot file and your active directory domain name and click Generate Report for a text output or Generate Password Cloud for a wordcloud output.
+1. Now you have the .pot file with your cracked hashes, enter the name of the pot file and the active directory domain name and click Generate Report for a text output or Generate Password Cloud for a wordcloud output.
 
 
 ### Step 5. Checking Email Breaches
@@ -417,7 +457,10 @@ The Word Cloud is coloured based on the password's score, and sized based on the
 
 ## Handover Report
 
-**Python Libraries Used:**
+
+### Key Python Libraries Used:
+
+These are some of the most important libraries have been used and their function within Aegis. The full list of libraries can be found in the requirements section of the appendix.
 
 
 <table>
@@ -428,153 +471,9 @@ The Word Cloud is coloured based on the password's score, and sized based on the
    </td>
   </tr>
   <tr>
-   <td>asn1crypto
-   </td>
-   <td>Serializing ASN.1 structures
-   </td>
-  </tr>
-  <tr>
-   <td>backports.functools-lru-cache
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>cffi
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
    <td>Cryptography
    </td>
-   <td>Provides cryptographic tools we used for extracting the hashes
-   </td>
-  </tr>
-  <tr>
-   <td>cycler
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>enum34
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>idna
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>ipaddress
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>ldap3
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>matplotlib
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>numpy
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>pandas
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>Pillow
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>pyasn1
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>pycparser
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>pycrypto
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>pyOpenSSL
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>pyparsing
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>python-dateutil
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>pytz
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>six
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>subprocess32
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>tinydb
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>tinydb-serialization
-   </td>
-   <td>
-   </td>
-  </tr>
-  <tr>
-   <td>ujson
-   </td>
-   <td>
+   <td>Provides the cryptographic tools used for extracting the hashes
    </td>
   </tr>
   <tr>
@@ -586,14 +485,70 @@ The Word Cloud is coloured based on the password's score, and sized based on the
   <tr>
    <td>zxcvbn
    </td>
-   <td>Dropbox's low budget password strength estimation library
+   <td>Dropbox's low budget password strength estimation library - used for scoring passwords
+   </td>
+  </tr>
+  <tr>
+   <td>Impacket
+   </td>
+   <td>Suite of cryptography tools used to parse NTDS.dit
    </td>
   </tr>
 </table>
 
 
 
+### Core Modules
+
+**AegisUI.py**
+
+Tkinter based UI, uses text input boxes and buttons to perform functions identical to the command line in a more accessible environment. Absolute positioning is used for UI elements which could be problematic for wider compatibility. ScrolledText mirrors the standard output of the CLI.
+
+**Aegis.py**
+
+Command line backend to the UI. Allows user to interact with the program through only the command line to increase compatibility in enterprise scenarios.
+
+**ntds_parser.py**
+
+Uses imports from CoreSecurity's impacket, a collection of python classes for working with network protocols to parse NTLM authentications using password hashes. This is what is used for decrypting the ntds.dit file using the SYSTEM hive.
+
+**Output Modules**
+
+Separate output modules are used for different types of outputs, allowing for greater future compatibility with other output options like email or PDF. The current build contains a stdout module for printing to the console/ScrolledText box in the UI, and the password_cloud module for outputting to the password cloud.
+
+**stdout.py**
+
+This was originally created as a module for printing the report into the console window, however when the UI was created it was efficient to have the ScrolledText box mirror the console's STDOUT. This has lead to a number of text formatting and alignment problems which are unresolved thus far, however the functionality is all there.
+
+The handling for analysing the passwords with the zxcvbn low budget password strength estimation algorithm and HaveIBeenPwned is also done inside this module. 
+
+**password_cloud.py**
+
+Used the 'WordCloud' and 'matplotlib' libraries to generate a word cloud based on the strength and frequency of a password.
+
+
 ## Conclusions
+
+
+### Aegis and Your Company
+
+Despite its potential use as a penetration testing tool, the in-house security applications of Aegis is where it shines the most, we've developed a series of tips through research and testing on how you can use Aegis to bolster your company's defence in depth.
+
+
+
+1. Phase in training on password and account security, discuss why they're important and simple techniques people can pick up as habits. It is vital people understand the full intent of policy changes they may find annoying otherwise.
+2. Progressively increase the minimum password length and complexity requirements over time. The introduction of the idea of passphrases, using words that wouldn't commonly be used together is useful for making this easier for employees to adapt to.
+3. Roll out a password manager like KeePass or something similar along with training for all employees.
+4. Use Aegis to find problem employees with poor security and educate them on good security practice. Consider introducing a strike system for employees that are repeat offenders, as they are opening up a serious attack vector within your company.
+5. Schedule performing an account audit using Aegis regularly, this will ensure people are sticking with the new standards.
+6. Avoid forcing users to reset their password after a certain number of days, there is substantial research [3] suggesting this encourages weaker passwords rather than stronger ones.
+
+
+### Project Takeaways
+
+Throughout the course of this project we discovered a lot about active directories, how they work, their security measures and most importantly, subverting those security measures. The product of that being producing a well rounded, versatile tool that could be effectively utilized by a CEO and a penetration tester alike. The research we undertook concerning account policy, and how that fits into the defence in depth security model was extremely valuable for the development of the product, as implementing cutting edge research makes this a tool that could be a solid addition to any company's security arsenal. 
+
+
 
 
 ## References
@@ -602,12 +557,155 @@ The Word Cloud is coloured based on the password's score, and sized based on the
 
 [2] Cloudflare - Validating Leaked Passwords with K-Anonymity [https://blog.cloudflare.com/validating-leaked-passwords-with-k-anonymity/](https://blog.cloudflare.com/validating-leaked-passwords-with-k-anonymity/)
 
+[3] Why the 90 Day Rule for Password Changing? [https://www.sans.org/security-awareness-training/blog/why-90-day-rule-password-changing](https://www.sans.org/security-awareness-training/blog/why-90-day-rule-password-changing)
 
-## Bibliography
+[4] asn1crypto==0.24.0
+
+[https://github.com/wbond/asn1crypto](https://github.com/wbond/asn1crypto)
+
+[5] backports.functools-lru-cache==1.4
+
+[https://github.com/jaraco/backports.functools_lru_cache](https://github.com/jaraco/backports.functools_lru_cache)
+
+[6] cffi==1.11.2
+
+[https://pypi.org/project/cffi/](https://pypi.org/project/cffi/)
+
+[7] cryptography==2.1.4
+
+[https://pypi.org/project/cryptography/](https://pypi.org/project/cryptography/)
+
+[8] cycler==0.10.0
+
+[https://github.com/matplotlib/cycler](https://github.com/matplotlib/cycler)
+
+[9] enum34==1.1.6
+
+[https://pypi.org/project/enum34/](https://pypi.org/project/enum34/)
+
+[10] idna==2.6
+
+[https://pypi.org/project/idna/](https://pypi.org/project/idna/)
+
+[11] ipaddress==1.0.19
+
+[https://github.com/phihag/ipaddress](https://github.com/phihag/ipaddress)
+
+[12] ldap3==2.2.3
+
+[https://pypi.org/project/ldap3/](https://pypi.org/project/ldap3/)
+
+[13] matplotlib==2.1.1
+
+[https://matplotlib.org/](https://matplotlib.org/)
+
+[14] numpy==1.13.3
+
+[https://github.com/numpy/numpy](https://github.com/numpy/numpy)
+
+[15] pandas==0.21.1
+
+[https://github.com/pandas-dev/pandas](https://github.com/pandas-dev/pandas)
+
+[16] Pillow==5.0.0
+
+[https://github.com/python-pillow/Pillow](https://github.com/python-pillow/Pillow)
+
+[17] pyasn1==0.4.2
+
+[https://github.com/etingof/pyasn1](https://github.com/etingof/pyasn1)
+
+[18] pycparser==2.18
+
+[https://github.com/eliben/pycparser](https://github.com/eliben/pycparser)
+
+[19] crackedit==1.0.0
+
+[https://github.com/eth0izzle/cracke-dit](https://github.com/eth0izzle/cracke-dit)
+
+[20] pycrypto==2.6.1
+
+[https://github.com/dlitz/pycrypto](https://github.com/dlitz/pycrypto)
+
+[21] pyOpenSSL==17.5.0
+
+[https://github.com/pyca/pyopenssl](https://github.com/pyca/pyopenssl)
+
+[22] pyparsing==2.2.0
+
+[https://github.com/pyparsing/pyparsing](https://github.com/pyparsing/pyparsing)
+
+[23] python-dateutil==2.6.1
+
+[https://github.com/dateutil/dateutil](https://github.com/dateutil/dateutil)
+
+[24] pytz==2017.3
+
+[https://github.com/stub42/pytz](https://github.com/stub42/pytz)
+
+[25] six==1.11.0
+
+[https://github.com/benjaminp/six](https://github.com/benjaminp/six)
+
+[26] subprocess32==3.2.7
+
+[https://github.com/google/python-subprocess32](https://github.com/google/python-subprocess32)
+
+[27] tinydb==3.7.0
+
+[https://github.com/msiemens/tinydb](https://github.com/msiemens/tinydb)
+
+[28] tinydb-serialization==1.0.4
+
+[https://github.com/msiemens/tinydb-serialization](https://github.com/msiemens/tinydb-serialization)
+
+[29] ujson==1.35
+
+[https://github.com/esnme/ultrajson](https://github.com/esnme/ultrajson)
+
+[30] wordcloud==1.3.1
+
+[https://github.com/amueller/word_cloud/tree/master/wordcloud](https://github.com/amueller/word_cloud/tree/master/wordcloud)
+
+[31] zxcvbn==1.0
+
+[https://github.com/dropbox/zxcvbn](https://github.com/dropbox/zxcvbn)
 
 
-## Appendices
+## Appendix
 
+
+### Requirements
+
+_Contained within requirements.txt for easy installation with 'pip install -r requirements.txt'_
+
+asn1crypto==0.24.0
+backports.functools-lru-cache==1.4
+cffi==1.11.2
+cryptography==2.1.4
+cycler==0.10.0
+enum34==1.1.6
+idna==2.6
+ipaddress==1.0.19
+ldap3==2.2.3
+matplotlib==2.1.1
+numpy==1.13.3
+pandas==0.21.1
+Pillow==5.0.0
+pyasn1==0.4.2
+pycparser==2.18
+pycrypto==2.6.1
+pyOpenSSL==17.5.0
+pyparsing==2.2.0
+python-dateutil==2.6.1
+pytz==2017.3
+six==1.11.0
+subprocess32==3.2.7
+tinydb==3.7.0
+tinydb-serialization==1.0.4
+ujson==1.35
+wordcloud==1.3.1
+zxcvbn==1.0
 
 
 <p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/Technical-Report2.png). Store image on your image server and adjust path/filename if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
